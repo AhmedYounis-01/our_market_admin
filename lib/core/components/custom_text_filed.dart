@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:our_market_admin/core/utils/colors.dart';
 
-class CustomSearchField extends StatelessWidget {
-  const CustomSearchField({super.key, this.onPressed, this.searchController});
-  final TextEditingController? searchController;
+class CustomTextField extends StatelessWidget {
+  const CustomTextField({
+    super.key,
+    this.labelText,
+    this.controller,
+    this.onPressed,
+    this.obscureText = false,
+  });
+  final String? labelText;
+  final TextEditingController? controller;
   final void Function()? onPressed;
+  final bool obscureText;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -12,23 +21,21 @@ class CustomSearchField extends StatelessWidget {
       child: SizedBox(
         height: 50,
         child: TextField(
-          controller: searchController,
+          obscureText: obscureText,
+          controller: controller,
+          cursorColor: AppColors.kBlackColor,
           decoration: InputDecoration(
-            suffixIcon: SizedBox(
-              height: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.kPrimaryColor,
-                  foregroundColor: AppColors.kWhiteColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                onPressed: onPressed,
-                child: const Icon(Icons.search),
-              ),
-            ),
-            labelText: "Searh In Market",
+            suffixIcon: obscureText
+                ? IconButton(
+                    onPressed: onPressed,
+                    icon: const Icon(
+                      Icons.visibility_off,
+                      color: AppColors.kBlackColor,
+                    ),
+                  )
+                : null,
+            labelText: labelText,
+            labelStyle: const TextStyle(color: AppColors.kBlackColor),
             border: OutlineInputBorder(
               borderSide: BorderSide(
                 color: AppColors.kBordersideColor,
