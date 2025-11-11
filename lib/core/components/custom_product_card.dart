@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:our_market_admin/core/components/custom_net_img.dart';
 import 'package:our_market_admin/core/function/navigate_to.dart';
 import 'package:our_market_admin/features/products/ui/comment_screen.dart';
+import 'package:our_market_admin/features/products/ui/edit_product_screen.dart';
 import 'custom_elevated_button.dart';
 
 class CustomProductCard extends StatelessWidget {
@@ -41,7 +42,7 @@ class CustomProductCard extends StatelessWidget {
                 CustomElevatedButton(
                   child: const Icon(Icons.edit),
                   onPressed: () {
-                    // navigateTo(context, EditProductScreen(product: product)),
+                    navigateTo(context, EditProductScreen());
                   },
                 ),
               ],
