@@ -66,7 +66,7 @@ class CustomProductCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: CustomElevatedButton(
-                // onPressed: deleteProduct,
+                onPressed: () {},
                 child: const Row(
                   children: [Icon(Icons.delete), Text("Delete")],
                 ),
