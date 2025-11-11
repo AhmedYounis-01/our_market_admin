@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:our_market_admin/features/auth/ui/login_screen.dart';
+import 'package:our_market_admin/features/home/ui/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const LoginScreen(),
+      home: const HomeScreen(),
     );
   }
 }
