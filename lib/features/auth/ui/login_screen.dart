@@ -13,6 +13,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool isPasswordObscured = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,18 +23,17 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomTextField(
-              labelText: "Email",
-              controller: emailController,
-              
-              onPressed: () {},
-            ),
+            CustomTextField(labelText: "Email", controller: emailController),
             SizedBox(height: 20),
             CustomTextField(
               labelText: "Password",
               controller: passwordController,
-              obscureText: true,
-              onPressed: () {},
+              isObscured: isPasswordObscured,
+              onVisibilityToggle: () {
+                setState(() {
+                  isPasswordObscured = !isPasswordObscured;
+                });
+              },
             ),
             SizedBox(height: 40),
             CustomElevatedButton(

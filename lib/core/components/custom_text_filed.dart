@@ -6,32 +6,39 @@ class CustomTextField extends StatelessWidget {
     super.key,
     this.labelText,
     this.controller,
-    this.onPressed,
-    this.obscureText = false,
+    // callback to toggle visibility (only for password fields)
+    this.onVisibilityToggle,
+    // whether the text is currently obscured (password hidden)
+    this.isObscured = false,
   });
   final String? labelText;
   final TextEditingController? controller;
-  final void Function()? onPressed;
-  final bool obscureText;
+  final void Function()? onVisibilityToggle;
+  final bool isObscured;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsGeometry.all(8),
+      padding: const EdgeInsets.all(8),
       child: SizedBox(
         height: 50,
         child: TextField(
-          obscureText: obscureText,
+          obscureText: isObscured,
           controller: controller,
           cursorColor: AppColors.kBlackColor,
           decoration: InputDecoration(
-            suffixIcon: obscureText
+            suffixIcon: onVisibilityToggle != null
                 ? IconButton(
-                    onPressed: onPressed,
-                    icon: const Icon(
-                      Icons.visibility_off,
-                      color: AppColors.kBlackColor,
-                    ),
+                    onPressed: onVisibilityToggle,
+                    icon: isObscured
+                        ? const Icon(
+                            Icons.visibility_off,
+                            color: AppColors.kBlackColor,
+                          )
+                        : const Icon(
+                            Icons.visibility,
+                            color: AppColors.kBlackColor,
+                          ),
                   )
                 : null,
             labelText: labelText,
