@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:our_market_admin/core/components/custom_elevated_button.dart';
 import 'package:our_market_admin/core/components/custom_text_filed.dart';
 import 'package:our_market_admin/core/function/custom_appbar.dart';
+import 'package:our_market_admin/core/function/shared_pref.dart';
 
 class EditProductScreen extends StatefulWidget {
   const EditProductScreen({super.key});
@@ -87,7 +90,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: CustomElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  String? token = await SharedPref.getToken();
+                  log("test token >>>>>>>>>>>>>>>> $token");
+                },
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text("Update"),

@@ -28,4 +28,12 @@ class ApiSevices {
   Future<Response> createAnAccout(String endPoint, Map<String, dynamic> data) {
     return _dioAuth.post(endPoint, data: data);
   }
+
+  Future<Response> login(String endPoint, Map<String, dynamic> data) {
+    return _dioAuth.post(
+      endPoint,
+      data: data,
+      queryParameters: {"grant_type": "password"},
+    );
+  }
 }
