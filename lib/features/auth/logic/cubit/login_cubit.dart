@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:our_market_admin/core/function/shared_pref.dart';
@@ -19,7 +21,6 @@ class LoginCubit extends Cubit<LoginState> {
         emit(LoginError(response.data["msg"]));
       }
     } catch (e) {
-      print(e.toString());
       emit(LoginError("Something went wrong please try again"));
     }
   }

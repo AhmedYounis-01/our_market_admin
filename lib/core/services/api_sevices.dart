@@ -9,7 +9,10 @@ class ApiSevices {
     ),
   );
 
-  Future<Response> getData(String path) async => await _dio.get(path);
+  Future<Response> getData(String path, String? token) async => await _dio.get(
+    path,
+    options: Options(headers: {"Authorization": "Bearer $token"}),
+  );
 
   Future<Response> postData(String path, Map<String, dynamic> data) async =>
       await _dio.post(path, data: data);

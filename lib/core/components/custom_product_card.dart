@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:our_market_admin/core/components/custom_net_img.dart';
 import 'package:our_market_admin/core/function/navigate_to.dart';
+import 'package:our_market_admin/core/models/product_model.dart';
 import 'package:our_market_admin/features/products/ui/comment_screen.dart';
 import 'package:our_market_admin/features/products/ui/edit_product_screen.dart';
 import 'custom_elevated_button.dart';
@@ -8,11 +9,11 @@ import 'custom_elevated_button.dart';
 class CustomProductCard extends StatelessWidget {
   const CustomProductCard({
     super.key,
-    // required this.product,
+    required this.product,
     // this.deleteProduct,
   });
 
-  // final ProductModel product;
+  final ProductModel product;
   // final void Function()? deleteProduct;
   @override
   Widget build(BuildContext context) {
@@ -27,17 +28,17 @@ class CustomProductCard extends StatelessWidget {
               height: 150,
               width: 200,
               url:
-                  "https://images.unsplash.com/photo-1491933382434-500287f9b54b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=764",
+                  product.imageUrl,
             ),
             const SizedBox(width: 20),
             Column(
               children: [
                 Text(
-                  "Product Name",
+                  product.productName,
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                Text("Product Description", style: TextStyle(fontSize: 18)),
+                Text(product.description, style: TextStyle(fontSize: 18)),
                 const SizedBox(height: 10),
                 CustomElevatedButton(
                   child: const Icon(Icons.edit),
@@ -51,11 +52,11 @@ class CustomProductCard extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  "Product Price",
+                   product.price.toString(),
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                Text("100 EG", style: TextStyle(fontSize: 18)),
+                Text( product.oldPrice.toString(), style: TextStyle(fontSize: 18)),
                 const SizedBox(height: 10),
                 CustomElevatedButton(
                   child: const Icon(Icons.comment),
