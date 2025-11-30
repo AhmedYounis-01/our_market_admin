@@ -7,10 +7,11 @@ import 'package:our_market_admin/core/components/custom_elevated_button.dart';
 import 'package:our_market_admin/core/components/custom_text_filed.dart';
 import 'package:our_market_admin/core/function/custom_appbar.dart';
 import 'package:our_market_admin/core/function/shared_pref.dart';
+import 'package:our_market_admin/core/models/product_model.dart';
 
 class EditProductScreen extends StatefulWidget {
-  const EditProductScreen({super.key});
-  // final ProductModel product;
+  const EditProductScreen({super.key, required this.product});
+  final ProductModel product;
 
   @override
   State<EditProductScreen> createState() => _EditProductScreenState();
@@ -27,12 +28,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   @override
   void initState() {
-    // selectedValue = widget.product.category;
-    // discount = widget.product.sale.toString();
-    // _productNameController.text = widget.product.productName;
-    // _newPriceController.text = widget.product.price.toString();
-    // _oldPriceController.text = widget.product.oldPrice.toString();
-    // _productDescriptionController.text = widget.product.description;
+    selectedValue = widget.product.category;
+    discount = widget.product.sale.toString();
+    _productNameController.text = widget.product.productName;
+    _newPriceController.text = widget.product.price.toString();
+    _oldPriceController.text = widget.product.oldPrice.toString();
+    _productDescriptionController.text = widget.product.description;
 
     super.initState();
   }
@@ -118,8 +119,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             _selectedImage != null
                 ? Image.memory(_selectedImage!, height: 200, width: 300)
                 : CachedNetworkImage(
-                    imageUrl:
-                        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
+                    imageUrl: widget.product.imageUrl,
                     height: 200,
                     width: 300,
                   ),
@@ -147,16 +147,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
     return DropdownMenu(
       onSelected: (String? value) {
         setState(() {
-          selectedValue = value ?? "collections";
+          selectedValue = value ?? "Collections";
         });
       },
-      initialSelection: selectedValue, // "collections",
+      initialSelection: widget.product.category, // "collections",
       dropdownMenuEntries: const [
-        DropdownMenuEntry(value: "sports", label: "Sports"),
-        DropdownMenuEntry(value: "electronics", label: "Electronics"),
-        DropdownMenuEntry(value: "collections", label: "Collections"),
-        DropdownMenuEntry(value: "books", label: "Books"),
-        DropdownMenuEntry(value: "bikes", label: "Bikes"),
+        DropdownMenuEntry(value: "Sports", label: "Sports"),
+        DropdownMenuEntry(value: "Electronics", label: "Electronics"),
+        DropdownMenuEntry(value: "Collections", label: "Collections"),
+        DropdownMenuEntry(value: "Books", label: "Books"),
+        DropdownMenuEntry(value: "Bikes", label: "Bikes"),
       ],
     );
   }

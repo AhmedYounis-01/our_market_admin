@@ -24,12 +24,7 @@ class CustomProductCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CustomNetworkImage(
-              height: 150,
-              width: 200,
-              url:
-                  product.imageUrl,
-            ),
+            CustomNetworkImage(height: 150, width: 200, url: product.imageUrl),
             const SizedBox(width: 20),
             Column(
               children: [
@@ -43,7 +38,7 @@ class CustomProductCard extends StatelessWidget {
                 CustomElevatedButton(
                   child: const Icon(Icons.edit),
                   onPressed: () {
-                    navigateTo(context, EditProductScreen());
+                    navigateTo(context, EditProductScreen(product: product));
                   },
                 ),
               ],
@@ -52,11 +47,14 @@ class CustomProductCard extends StatelessWidget {
             Column(
               children: [
                 Text(
-                   product.price.toString(),
+                  product.price.toString(),
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                Text( product.oldPrice.toString(), style: TextStyle(fontSize: 18)),
+                Text(
+                  product.oldPrice.toString(),
+                  style: TextStyle(fontSize: 18),
+                ),
                 const SizedBox(height: 10),
                 CustomElevatedButton(
                   child: const Icon(Icons.comment),
