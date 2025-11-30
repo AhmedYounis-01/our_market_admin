@@ -54,33 +54,32 @@ class _EditProductScreenState extends State<EditProductScreen> {
               labelText: "Product Name",
               controller: _productNameController,
             ),
-            // 70
             const SizedBox(height: 10),
             CustomTextField(
-              // inputFormatters: [
-              //   FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
-              // ],
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
+              ],
               labelText: "Old Price (Before Discount)",
               controller: _oldPriceController,
-            ), // 249
+            ),
             const SizedBox(height: 10),
 
             CustomTextField(
-              // inputFormatters: [
-              //   FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
-              // ],
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
+              ],
               labelText: "New Price (After Discount)",
               controller: _newPriceController,
-              // onChanged: (String val) {
-              //   double x =
-              //       ((double.parse(_oldPriceController.text) -
-              //           double.parse(val)) /
-              //       double.parse(_oldPriceController.text) *
-              //       100);
-              //   setState(() {
-              //     discount = x.round().toString();
-              //   });
-              // },
+              onChanged: (String val) {
+                double x =
+                    ((double.parse(_oldPriceController.text) -
+                        double.parse(val)) /
+                    double.parse(_oldPriceController.text) *
+                    100);
+                setState(() {
+                  discount = x.round().toString();
+                });
+              },
             ),
             const SizedBox(height: 10),
             CustomTextField(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:our_market_admin/core/utils/colors.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -10,11 +11,15 @@ class CustomTextField extends StatelessWidget {
     this.onVisibilityToggle,
     // whether the text is currently obscured (password hidden)
     this.isObscured = false,
+    this.onChanged,
+    this.inputFormatters,
   });
   final String? labelText;
   final TextEditingController? controller;
   final void Function()? onVisibilityToggle;
   final bool isObscured;
+  final void Function(String)? onChanged;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +28,8 @@ class CustomTextField extends StatelessWidget {
       child: SizedBox(
         height: 50,
         child: TextField(
+          onChanged: onChanged,
+          inputFormatters: inputFormatters,
           obscureText: isObscured,
           controller: controller,
           cursorColor: AppColors.kBlackColor,
