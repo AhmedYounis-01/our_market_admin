@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:our_market_admin/core/components/custom_elevated_button.dart';
 import 'package:our_market_admin/core/components/custom_text_filed.dart';
 import 'package:our_market_admin/core/function/custom_appbar.dart';
+import 'package:our_market_admin/core/function/file_picker.dart';
 import 'package:our_market_admin/core/function/shared_pref.dart';
 import 'package:our_market_admin/core/models/product_model.dart';
 
@@ -127,7 +128,17 @@ class _EditProductScreenState extends State<EditProductScreen> {
               children: [
                 CustomElevatedButton(
                   child: const Icon(Icons.image),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await pickFile().then((value) {
+                      if (value != null) {
+                        setState(() {
+                          Uint8List? bytes = value.files.first.bytes;
+                          _selectedImage = bytes;
+                          // _imageName = value.files.first.name;
+                        });
+                      }
+                    });
+                  },
                 ),
                 const SizedBox(width: 10),
                 CustomElevatedButton(
