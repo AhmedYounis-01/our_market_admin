@@ -3,12 +3,14 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:our_market_admin/core/components/custom_elevated_button.dart';
 import 'package:our_market_admin/core/components/custom_text_filed.dart';
 import 'package:our_market_admin/core/function/custom_appbar.dart';
 import 'package:our_market_admin/core/function/file_picker.dart';
 import 'package:our_market_admin/core/function/shared_pref.dart';
 import 'package:our_market_admin/core/models/product_model.dart';
+import 'package:our_market_admin/features/products/logic/cubit/products_cubit.dart';
 
 class EditProductScreen extends StatefulWidget {
   const EditProductScreen({super.key, required this.product});
@@ -40,74 +42,87 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   Uint8List? _selectedImage;
-  // String _imageName = "imageName";
+  String _imageName = "imageName";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildCustomAppBar(context, "Edit Product"),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            _buildEditProduct(),
-            const SizedBox(height: 60),
-            CustomTextField(
-              labelText: "Product Name",
-              controller: _productNameController,
-            ),
-            const SizedBox(height: 10),
-            CustomTextField(
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
-              ],
-              labelText: "Old Price (Before Discount)",
-              controller: _oldPriceController,
-            ),
-            const SizedBox(height: 10),
+    return BlocProvider(
+      create: (context) => ProductsCubit(),
+      child: BlocConsumer<ProductsCubit, ProductsState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          final ProductsCubit cubit = context.read<ProductsCubit>();
+          return Scaffold(
+            appBar: buildCustomAppBar(context, "Edit Product"),
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ListView(
+                children: [
+                  _buildEditProduct(state, cubit),
+                  const SizedBox(height: 60),
+                  CustomTextField(
+                    labelText: "Product Name",
+                    controller: _productNameController,
+                  ),
+                  const SizedBox(height: 10),
+                  CustomTextField(
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'^(\d+)?\.?\d{0,2}'),
+                      ),
+                    ],
+                    labelText: "Old Price (Before Discount)",
+                    controller: _oldPriceController,
+                  ),
+                  const SizedBox(height: 10),
 
-            CustomTextField(
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
-              ],
-              labelText: "New Price (After Discount)",
-              controller: _newPriceController,
-              onChanged: (String val) {
-                double x =
-                    ((double.parse(_oldPriceController.text) -
-                        double.parse(val)) /
-                    double.parse(_oldPriceController.text) *
-                    100);
-                setState(() {
-                  discount = x.round().toString();
-                });
-              },
-            ),
-            const SizedBox(height: 10),
-            CustomTextField(
-              labelText: "Product Description",
-              controller: _productDescriptionController,
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: CustomElevatedButton(
-                onPressed: () async {
-                  String? token = await SharedPref.getToken();
-                  log("test token >>>>>>>>>>>>>>>> $token");
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Update"),
-                ),
+                  CustomTextField(
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'^(\d+)?\.?\d{0,2}'),
+                      ),
+                    ],
+                    labelText: "New Price (After Discount)",
+                    controller: _newPriceController,
+                    onChanged: (String val) {
+                      double x =
+                          ((double.parse(_oldPriceController.text) -
+                              double.parse(val)) /
+                          double.parse(_oldPriceController.text) *
+                          100);
+                      setState(() {
+                        discount = x.round().toString();
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  CustomTextField(
+                    labelText: "Product Description",
+                    controller: _productDescriptionController,
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: CustomElevatedButton(
+                      onPressed: () async {
+                        String? token = await SharedPref.getToken();
+                        log("test token >>>>>>>>>>>>>>>> $token");
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text("Update"),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 
-  Row _buildEditProduct() {
+  Row _buildEditProduct(ProductsState state, ProductsCubit cubit) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -134,7 +149,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         setState(() {
                           Uint8List? bytes = value.files.first.bytes;
                           _selectedImage = bytes;
-                          // _imageName = value.files.first.name;
+                          _imageName = value.files.first.name;
                         });
                       }
                     });
@@ -142,7 +157,17 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 ),
                 const SizedBox(width: 10),
                 CustomElevatedButton(
-                  onPressed: () {},
+                  onPressed: state is UploadImageLoading
+                      ? null
+                      : () async {
+                          if (_selectedImage != null) {
+                            cubit.uploadImage(
+                              image: _selectedImage!,
+                              imageName: _imageName,
+                              bucketName: "Images",
+                            );
+                          }
+                        },
                   child: const Icon(Icons.upload_file_rounded),
                 ),
               ],
