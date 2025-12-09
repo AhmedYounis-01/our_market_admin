@@ -16,3 +16,9 @@ final class UploadImageLoading extends ProductsState {}
 final class UploadImgaeScuccess extends ProductsState {}
 
 final class UploadImageError extends ProductsState {}
+
+final class EditProductLoading extends ProductsState {}
+
+final class EditProductScuccess extends ProductsState {}
+
+final class EditProductError extends ProductsState {}

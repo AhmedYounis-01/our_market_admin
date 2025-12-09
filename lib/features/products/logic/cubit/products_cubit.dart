@@ -58,13 +58,32 @@ class ProductsCubit extends Cubit<ProductsState> {
       );
       if (response.statusCode == 200) {
         emit(UploadImgaeScuccess());
-        imageUrl = "https://mxgcypikbuuipodksmqe.supabase.co/storage/v1/object/public/${response.data["Key"]}";
+        imageUrl =
+            "https://mxgcypikbuuipodksmqe.supabase.co/storage/v1/object/public/${response.data["Key"]}";
         print(imageUrl);
       } else {
         emit(UploadImageError());
       }
     } catch (err) {
       emit(UploadImageError());
+    }
+  }
+
+  Future<void> editProduct({
+    required String productId,
+    required Map<String, dynamic> data,
+  }) async {
+    emit(EditProductLoading());
+    try {
+      String? token = await SharedPref.getToken();
+      Response response = await _apiSevices.patchData(
+        "products?product_id=eq.$productId",
+        data,
+        token,
+      );
+      if (response.statusCode == 204) emit(EditProductScuccess());
+    } catch (err) {
+      emit(EditProductError());
     }
   }
 }
