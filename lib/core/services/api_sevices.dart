@@ -27,7 +27,11 @@ class ApiSevices {
     options: Options(headers: {"Authorization": "Bearer $token"}),
   );
 
-  Future<Response> deleteData(String path) async => await _dio.delete(path);
+  Future<Response> deleteData(String path, String? token) async =>
+      await _dio.delete(
+        path,
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
 
   final Dio _dioAuth = Dio(
     BaseOptions(

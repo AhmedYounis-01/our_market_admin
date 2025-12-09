@@ -10,11 +10,11 @@ class CustomProductCard extends StatelessWidget {
   const CustomProductCard({
     super.key,
     required this.product,
-    // this.deleteProduct,
+    this.deleteProduct,
   });
 
   final ProductModel product;
-  // final void Function()? deleteProduct;
+  final void Function()? deleteProduct;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -65,7 +65,7 @@ class CustomProductCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: CustomElevatedButton(
-                onPressed: () {},
+                onPressed: deleteProduct,
                 child: const Row(
                   children: [Icon(Icons.delete), Text("Delete")],
                 ),
