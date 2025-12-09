@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
@@ -46,8 +48,8 @@ class ProductsCubit extends Cubit<ProductsState> {
     });
     try {
       Response response = await dio.post(
-        data: data,
         uploadUrl,
+        data: data,
         options: Options(
           headers: {
             "apikey": apiKey,
@@ -112,6 +114,17 @@ class ProductsCubit extends Cubit<ProductsState> {
       emit(DeleteProductSuccess());
     } catch (err) {
       emit(DeleteProductError());
+    }
+  }
+
+  Future<void> addProduct({required Map<String, dynamic> data}) async {
+    emit(AddProductLoading());
+    try {
+      String? token = await SharedPref.getToken();
+      await _apiSevices.postData("products", data, token);
+      emit(AddProductSuccess());
+    } catch (err) {
+      emit(AddProductError());
     }
   }
 }
